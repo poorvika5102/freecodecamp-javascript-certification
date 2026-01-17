@@ -1,0 +1,147 @@
+** start of index.html **
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Machine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="drum-machine">
+        <p id="display">Select a Pad</p>
+        <div id="pad-bank">
+            <button class="drum-pad" id="Heater-1">Q
+                <audio class="clip" id="Q" src="https://cdn.freecodecamp.org/curriculum/drum/Heater-1.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Heater-2">W
+                <audio class="clip" id="W" src="https://cdn.freecodecamp.org/curriculum/drum/Heater-2.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Heater-3">E
+                <audio class="clip" id="E" src="https://cdn.freecodecamp.org/curriculum/drum/Heater-3.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Heater-4">A
+                <audio class="clip" id="A" src="https://cdn.freecodecamp.org/curriculum/drum/Heater-4_1.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Clap">S
+                <audio class="clip" id="S" src="https://cdn.freecodecamp.org/curriculum/drum/Heater-6.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Open-HH">D
+                <audio class="clip" id="D" src="https://cdn.freecodecamp.org/curriculum/drum/Dsc_Oh.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Kick-n-Hat">Z
+                <audio class="clip" id="Z" src="https://cdn.freecodecamp.org/curriculum/drum/Kick_n_Hat.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Kick">X
+                <audio class="clip" id="X" src="https://cdn.freecodecamp.org/curriculum/drum/RP4_KICK_1.mp3"></audio>
+            </button>
+            <button class="drum-pad" id="Closed-HH">C
+                <audio class="clip" id="C" src="https://cdn.freecodecamp.org/curriculum/drum/Cev_H2.mp3"></audio>
+            </button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+** end of index.html **
+
+** start of styles.css **
+
+body {
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+#drum-machine {
+    background-color: #adb5bd;
+    padding: 20px;
+    border: 4px solid #f8961e;
+    border-radius: 10px;
+    width: 400px;
+}
+
+#display {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    min-height: 30px;
+}
+
+#pad-bank {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.drum-pad {
+    padding: 30px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #495057;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px #212529;
+}
+
+.drum-pad:active {
+    box-shadow: none;
+    transform: translateY(4px);
+    background-color: #f8961e;
+}
+
+** end of styles.css **
+
+** start of script.js **
+
+const display = document.getElementById('display');
+
+// Main function to play audio and update display
+function handlePlay(element) {
+    const audio = element.querySelector('.clip');
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+        // Set display to the ID of the button (the descriptive name)
+        display.innerText = element.id.replace(/-/g, ' ');
+    }
+}
+
+// 1. Click Event Listeners
+document.querySelectorAll('.drum-pad').forEach(pad => {
+    pad.addEventListener('click', () => {
+        handlePlay(pad);
+    });
+});
+
+// 2. Keyboard Event Listener
+document.addEventListener('keydown', (event) => {
+    const key = event.key.toUpperCase();
+    const audio = document.getElementById(key);
+    
+    if (audio && audio.classList.contains('clip')) {
+        const parent = audio.parentElement;
+        handlePlay(parent);
+        
+        // Add visual feedback for keyboard press
+        parent.style.backgroundColor = '#f8961e';
+        setTimeout(() => {
+            parent.style.backgroundColor = '';
+        }, 100);
+    }
+});
+
+** end of script.js **
+

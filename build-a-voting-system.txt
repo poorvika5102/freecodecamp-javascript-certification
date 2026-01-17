@@ -1,0 +1,65 @@
+** start of script.js **
+
+// 1. Initialize the poll variable to a new Map object
+const poll = new Map();
+
+// 2. Define the addOption function
+function addOption(option) {
+  // Check if option is empty or just whitespace
+  if (!option || option.trim() === "") {
+    return "Option cannot be empty.";
+  }
+
+  // Check if option already exists in the Map
+  if (poll.has(option)) {
+    return `Option "${option}" already exists.`;
+  }
+
+  // Initialize option with an empty Set to track unique voters
+  poll.set(option, new Set());
+  return `Option "${option}" added to the poll.`;
+}
+
+// 3. Define the vote function
+function vote(option, voterId) {
+  // Check if the option exists in the poll
+  if (!poll.has(option)) {
+    return `Option "${option}" does not exist.`;
+  }
+
+  const voters = poll.get(option);
+
+  // Check if the voterId has already voted for this option
+  if (voters.has(voterId)) {
+    return `Voter ${voterId} has already voted for "${option}".`;
+  }
+
+  // Add voterId to the Set and return success message
+  voters.add(voterId);
+  return `Voter ${voterId} voted for "${option}".`;
+}
+
+// 4. Define the displayResults function
+function displayResults() {
+  let resultString = "Poll Results:";
+  
+  // Iterate through the Map to build the result string
+  poll.forEach((voters, option) => {
+    resultString += `\n${option}: ${voters.size} votes`;
+  });
+
+  return resultString;
+}
+
+// 5. Initialize at least three options
+addOption("Turkey");
+addOption("Morocco");
+addOption("Spain");
+
+// 6. Register at least three votes across the poll
+vote("Turkey", "voter1");
+vote("Turkey", "voter2");
+vote("Morocco", "voter3");
+
+** end of script.js **
+
